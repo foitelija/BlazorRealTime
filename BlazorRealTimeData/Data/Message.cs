@@ -8,5 +8,11 @@
         public string Title { get; set; }
         public string Reciever { get; set; }
         public string Status { get; set; }
+        public string RegDate { get; set; }
+
+        public override string ToString()
+        {
+            return $"ID: {Id}\nRegNum: {RegNum}\nSender: {Sender}\nTitle: {Title}\nReciever: {Reciever}\nStatus: {Status}\nRegDate: {RegDate}";
+        }
     }
 }

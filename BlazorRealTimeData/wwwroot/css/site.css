@@ -4,6 +4,11 @@ html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
+tr.a:hover {
+    background-color: #0080ff;
+}
+
+
 h1:focus {
     outline: none;
 }

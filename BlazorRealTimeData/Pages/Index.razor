@@ -4,12 +4,43 @@
 @using Microsoft.AspNetCore.SignalR.Client;
 @inject IMessageController _service
 @inject NavigationManager Navigation
+@inject IJSRuntime JSRuntime
 
-<PageTitle>Live Data Page</PageTitle>
+<PageTitle>Live Page</PageTitle>
 
-@foreach(var message in Messages)
+@if(Messages == null)
 {
-    <p>@message.Id | @message.RegNum | @message.Sender | @message.Title | @message.Reciever | @message.Status </p>
+    <p><em>Loading......</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>RegNum</th>
+                <th>Sender</th>
+                <th>Title</th>
+                <th>Reciever</th>
+                <th>Status</th>
+                <th>RegDate</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var message in Messages)
+            {
+                <tr class="a" @onclick="@(()=>JsAlertMessageExample(message))">
+                    <td>@message.Id</td>
+                    <td>@message.RegNum</td>
+                    <td>@message.Sender</td>
+                    <td>@message.Title</td>
+                    <td>@message.Reciever</td>
+                    <td>@message.Status</td>
+                    <td>@message.RegDate</td>
+                </tr>
+            }
+        </tbody>
+    </table>
 }
 
 
@@ -30,5 +61,10 @@
         });
 
         await hub.StartAsync();
+    }
+
+    protected private async Task JsAlertMessageExample(Message message)
+    {
+        await JSRuntime.InvokeVoidAsync("alert", message.ToString());
     }
 }
