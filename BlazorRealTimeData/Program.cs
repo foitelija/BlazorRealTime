@@ -1,3 +1,4 @@
+using BlazorRealTimeData.Controllers;
 using BlazorRealTimeData.Data;
 using BlazorRealTimeData.Hubs;
 using BlazorRealTimeData.Services;
@@ -14,6 +15,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddSingleton<WeatherForecastService>();
 builder.Services.AddScoped<IMessageService, MessageService>();
+builder.Services.AddScoped<IMessageController, MessageController>();
 builder.Services.AddResponseCompression(options =>
 {
     options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(
