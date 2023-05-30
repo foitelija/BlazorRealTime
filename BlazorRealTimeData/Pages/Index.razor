@@ -1,5 +1,21 @@
 ﻿@page "/"
+@using BlazorRealTimeData.Data;
+@using BlazorRealTimeData.Services;
+@inject IMessageService _service;
 
 <PageTitle>Live Data Page</PageTitle>
 
+@foreach(var message in Messages)
+{
+    <p>@message.Id | @message.RegNum | @message.Sender | @message.Title | @message.Reciever | @message.Status </p>
+}
 
+
+@code{
+    List<Message> Messages = new List<Message>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        Messages = await _service.GetMessagesAsync();
+    }
+}
