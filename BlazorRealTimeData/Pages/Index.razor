@@ -1,7 +1,9 @@
 ﻿@page "/"
 @using BlazorRealTimeData.Data;
 @using BlazorRealTimeData.Services;
-@inject IMessageService _service;
+@using Microsoft.AspNetCore.SignalR.Client;
+@inject IMessageService _service
+@inject NavigationManager Navigation
 
 <PageTitle>Live Data Page</PageTitle>
 
@@ -14,8 +16,19 @@
 @code{
     List<Message> Messages = new List<Message>();
 
+    private HubConnection? hub;
     protected override async Task OnInitializedAsync()
     {
         Messages = await _service.GetMessagesAsync();
+
+        hub = new HubConnectionBuilder().WithUrl(Navigation.ToAbsoluteUri("/messagehub")).Build();
+
+        hub.On<List<Message>>("RefreshMessages", messages =>
+        {
+            Messages = messages;
+            InvokeAsync(StateHasChanged);
+        });
+
+        await hub.StartAsync();
     }
 }
